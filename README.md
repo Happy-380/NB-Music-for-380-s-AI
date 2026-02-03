@@ -30,7 +30,7 @@
 
 
 **下载**
-- [Releases](https://github.com/Happy-380/NB-Music-for-380-s-AI/releases)
+- [Releases](https://github.com/Happy-380/NB-Music-for-380-s-AI/releases)（点击以前往）
 - `win-unpacked`是未打包版本，点击即用；`nb_music-v1.0.2-Beta-win-x64.exe`是正常安装程序。
 
 
@@ -39,7 +39,7 @@
 
 
 **要详细了解380's Artificial Intelligence？**
-- [380's Artificial Intelligence](https://github.com/Happy-380/380AI)
+- [380's Artificial Intelligence](https://github.com/Happy-380/380AI)（点击以前往）
 
 ---
 
