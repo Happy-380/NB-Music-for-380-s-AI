@@ -1,0 +1,374 @@
+/**
+ * NB Music - 播放器交互动画
+ * 提供更精美的播放器按钮、进度条和音量控制交互动画
+ */
+
+/* 播放控制按钮悬停/点击动画 */
+.control .buttons > div {
+  transition: transform 0.2s var(--animation-timing-bounce),
+              opacity 0.2s ease,
+              background-color 0.2s ease;
+  position: relative;
+  overflow: hidden;
+}
+
+.control .buttons > div:hover {
+  transform: scale(1.05);
+}
+
+.control .buttons > div:active {
+  transform: scale(0.95);
+}
+
+/* 播放/暂停按钮动画增强 */
+.play.played::after,
+.play.paused::after {
+  content: '';
+  position: absolute;
+  top: 0;
+  left: 0;
+  width: 100%;
+  height: 100%;
+  border-radius: 50%;
+  background: radial-gradient(circle, rgba(var(--theme-1-rgb), 0.3) 0%, transparent 70%);
+  transform: scale(0);
+  opacity: 0;
+  animation: play-button-pulse 0.6s var(--animation-timing-bounce);
+}
+
+@keyframes play-button-pulse {
+  0% { transform: scale(0); opacity: 0.7; }
+  100% { transform: scale(1.8); opacity: 0; }
+}
+
+/* 进度条交互动画 */
+.progress-bar {
+  overflow: visible !important;
+  cursor: pointer;
+}
+
+.progress-bar:hover .progress-bar-inner {
+  height: 8px;
+  margin-top: -2px;
+}
+
+.progress-bar-inner {
+  transition: height 0.2s var(--animation-timing-bounce),
+              margin-top 0.2s var(--animation-timing-bounce),
+              width 0.1s linear;
+}
+
+.progress-bar:hover .progress-bar-inner::after {
+  content: '';
+  position: absolute;
+  top: 50%;
+  right: 0;
+  width: 12px;
+  height: 12px;
+  background: var(--theme-1);
+  border-radius: 50%;
+  transform: translate(50%, -50%);
+  box-shadow: 0 0 8px rgba(var(--theme-1-rgb), 0.6);
+  opacity: 0;
+  animation: handle-fade-in 0.3s ease forwards;
+  cursor: grab;
+}
+
+.progress-bar:active .progress-bar-inner::after {
+  cursor: grabbing;
+  transform: translate(50%, -50%) scale(1.2);
+}
+
+@keyframes handle-fade-in {
+  to { opacity: 1; }
+}
+
+/* 进度条激活播放位置提示 */
+.progress-time-preview {
+  position: absolute;
+  top: -25px;
+  transform: translateX(-50%);
+  background-color: var(--theme-1);
+  color: white;
+  padding: 2px 6px;
+  border-radius: 4px;
+  font-size: 12px;
+  opacity: 0;
+  transition: opacity 0.2s ease;
+  pointer-events: none;
+}
+
+.progress-bar:hover .progress-time-preview {
+  opacity: 1;
+}
+
+/* 音量控制交互动画 */
+.volume {
+  position: relative;
+  overflow: visible;
+}
+
+.volume-slider {
+  position: absolute;
+  bottom: calc(100% + 10px);
+  left: 50%;
+  width: 24px;
+  height: 80px;
+  background: var(--mica);
+  backdrop-filter: blur(10px);
+  -webkit-backdrop-filter: blur(10px);
+  border-radius: 12px;
+  border: 1px solid var(--border-1);
+  transform: translateX(-50%) scale(0.8);
+  opacity: 0;
+  transition: transform 0.3s var(--animation-timing-bounce),
+              opacity 0.3s ease;
+  padding: 8px 0;
+  box-shadow: var(--elevation-2);
+  z-index: 100;
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  pointer-events: none;
+}
+
+.volume:hover .volume-slider {
+  transform: translateX(-50%) scale(1);
+  opacity: 1;
+  pointer-events: all;
+}
+
+.volume-slider::after {
+  content: '';
+  position: absolute;
+  bottom: -5px;
+  left: 50%;
+  transform: translateX(-50%) rotate(45deg);
+  width: 10px;
+  height: 10px;
+  background: var(--mica);
+  border-right: 1px solid var(--border-1);
+  border-bottom: 1px solid var(--border-1);
+}
+
+.volume-bar {
+  width: 4px;
+  height: 100%;
+  background-color: var(--rgba-14);
+  border-radius: 2px;
+  position: relative;
+  margin-top: auto;
+}
+
+.volume-level {
+  position: absolute;
+  bottom: 0;
+  left: 0;
+  width: 100%;
+  background: linear-gradient(to top, var(--theme-1), var(--theme-2));
+  border-radius: 2px;
+  transition: height 0.2s ease;
+}
+
+.volume-handle {
+  position: absolute;
+  left: 50%;
+  transform: translate(-50%, 50%) scale(0);
+  width: 12px;
+  height: 12px;
+  background: var(--theme-1);
+  border-radius: 50%;
+  box-shadow: 0 0 5px rgba(var(--theme-1-rgb), 0.5);
+  opacity: 0;
+  transition: transform 0.3s var(--animation-timing-bounce),
+              opacity 0.3s ease;
+}
+
+.volume-slider:hover .volume-handle {
+  transform: translate(-50%, 50%) scale(1);
+  opacity: 1;
+}
+
+/* 音量图标点击动画 */
+.volume > i {
+  transition: transform 0.2s var(--animation-timing-bounce),
+              opacity 0.2s ease;
+}
+
+.volume:active > i {
+  transform: scale(0.8);
+}
+
+/* 重复播放模式切换动画 */
+.playmode i {
+  transition: transform 0.3s var(--animation-timing-bounce);
+}
+
+.playmode:hover i {
+  transform: rotate(180deg);
+}
+
+.playmode:active i {
+  transform: rotate(180deg) scale(0.9);
+}
+
+/* 音乐切换动画 */
+.prev i, .next i {
+  transition: transform 0.2s var(--animation-timing-bounce);
+}
+
+.prev:hover i {
+  transform: translateX(-3px);
+}
+
+.next:hover i {
+  transform: translateX(3px);
+}
+
+.prev:active i, .next:active i {
+  transform: scale(0.9);
+}
+
+/* 歌曲卡片动画 */
+.song {
+  transition: transform 0.3s var(--animation-timing-bounce),
+              background-color 0.2s ease,
+              box-shadow 0.3s ease;
+}
+
+.song:hover {
+  transform: translateY(-2px);
+  box-shadow: 0 4px 8px rgba(0, 0, 0, 0.1);
+}
+
+.song:active {
+  transform: translateY(0) scale(0.98);
+}
+
+/* 播放中的歌曲高亮脉冲动画 */
+.song.playing {
+  position: relative;
+}
+
+.song.playing::before {
+  content: '';
+  position: absolute;
+  left: 0;
+  top: 0;
+  width: 3px;
+  height: 100%;
+  background: linear-gradient(to bottom, var(--theme-1), var(--theme-2));
+  animation: playing-indicator-pulse 2s infinite;
+}
+
+@keyframes playing-indicator-pulse {
+  0%, 100% { opacity: 0.6; }
+  50% { opacity: 1; }
+}
+
+/* 播放器封面旋转动画 */
+.cover-img.playing {
+  animation: rotate-album 20s linear infinite;
+}
+
+.cover-img.paused {
+  animation-play-state: paused;
+}
+
+@keyframes rotate-album {
+  0% { transform: rotate(0deg); }
+  100% { transform: rotate(360deg); }
+}
+
+/* 收藏按钮动画 */
+.love i {
+  transition: transform 0.3s var(--animation-timing-bounce),
+              color 0.3s ease;
+}
+
+.love:hover i {
+  transform: scale(1.2);
+}
+
+.love:active i {
+  transform: scale(0.9);
+}
+
+.love i.loved {
+  color: #ff4757;
+}
+
+.love i.bi-heart-fill:not(.loved) {
+  color: var(--theme-1);
+}
+
+/* 爱心动画 */
+@keyframes heart-beat {
+  0% { transform: scale(1); }
+  15% { transform: scale(1.3); }
+  30% { transform: scale(0.95); }
+  45% { transform: scale(1.1); }
+  60% { transform: scale(1); }
+}
+
+.love i.loved {
+  animation: heart-beat 0.8s;
+}
+
+/* 加载指示器动画 */
+.loading-progress .progress-bar-inner {
+  background: linear-gradient(90deg, 
+    var(--theme-1), 
+    var(--theme-2), 
+    var(--theme-1));
+  background-size: 200% 100%;
+  animation: progress-loading 1.5s infinite linear;
+}
+
+@keyframes progress-loading {
+  0% { background-position: 200% 0; }
+  100% { background-position: -200% 0; }
+}
+
+/* 当前播放时间更新动画 */
+.currentTime, .totalTime {
+  transition: opacity 0.3s ease;
+}
+
+.seeking .currentTime {
+  opacity: 0.5;
+}
+
+/* 音量静音状态动画 */
+.volume.muted i {
+  color: var(--rgba-5);
+  animation: shake 0.82s cubic-bezier(.36,.07,.19,.97) both;
+}
+
+@keyframes shake {
+  10%, 90% { transform: translate3d(-1px, 0, 0); }
+  20%, 80% { transform: translate3d(1px, 0, 0); }
+  30%, 50%, 70% { transform: translate3d(-2px, 0, 0); }
+  40%, 60% { transform: translate3d(2px, 0, 0); }
+}
+
+/* 专辑信息淡入动画 */
+.player .info .title,
+.player .info .artist {
+  position: relative;
+  transition: transform 0.4s var(--animation-timing-bounce),
+              opacity 0.4s ease;
+}
+
+.song-changing .player .info .title {
+  animation: text-slide-up 0.5s var(--animation-timing-bounce);
+}
+
+.song-changing .player .info .artist {
+  animation: text-slide-up 0.5s var(--animation-timing-bounce) 0.1s;
+}
+
+@keyframes text-slide-up {
+  0% { transform: translateY(10px); opacity: 0; }
+  100% { transform: translateY(0); opacity: 1; }
+}

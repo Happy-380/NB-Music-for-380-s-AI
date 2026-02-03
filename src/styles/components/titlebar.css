@@ -1,0 +1,226 @@
+/* 标题栏样式 */
+
+/* 2025.12.18
+   移除窗口控制，修改控件布局（适应窗口嵌套方案，在 380's Artificial Intelligence 中）（一架从南航跑出来的380 修改）
+*/
+
+.titbar {
+    display: flex;
+    align-items: center;
+    justify-content: center; /* 改为居中，为两侧绝对定位留出空间 */
+    padding: 0px 16px;
+    box-shadow: 0 0 0 3px;
+    /* 这个box-shadow是奇怪bug的修复代码，如果删掉，--mica颜色就不会铺满背景，非常奇怪 */
+    background-color: var(--bg70);
+    backdrop-filter: blur(var(--bg-blur-amount, 10px));
+    -webkit-backdrop-filter: blur(var(--bg-blur-amount, 10px));
+    border-bottom: 1px solid var(--border-1);
+    -webkit-app-region: drag;
+    position: relative; /* 新增：作为子元素绝对定位的参考点 */
+    min-height: 60px; /* 新增：确保有足够高度容纳绝对定位元素，可根据实际情况调整 */
+}
+
+    /* --- 左侧图标和标题组：靠左对齐 --- */
+    .titbar .icon {
+        position: absolute; /* 改为绝对定位 */
+        left: 64px; /* 距离左侧64px */
+        top: 50%; /* 垂直居中 */
+        transform: translateY(-50%); /* 垂直居中 */
+        width: 24px;
+        height: 24px;
+        margin-right: 12px;
+        z-index: 10; /* 确保在前景 */
+        display: none !important;
+    }
+
+    .titbar p {
+        position: absolute; /* 改为绝对定位 */
+        left: 100px; /* 64px (左间距) + 24px (图标宽) + 12px (图标右边距) = 100px */
+        top: 50%; /* 垂直居中 */
+        transform: translateY(-50%); /* 垂直居中 */
+        font-size: 14px;
+        font-weight: 500;
+        margin: 0; /* 清除默认边距 */
+        z-index: 10;
+        white-space: nowrap; /* 防止文字换行 */
+        display: none !important;
+    }
+/* --- 左侧组样式结束 --- */
+
+/* --- 右侧登录按钮和头像组：靠右对齐 --- */
+/* 调整登录按钮容器定位 */
+.login-btn {
+    position: absolute; /* 改为绝对定位 */
+    right: 127px; /* 距离右侧127px */
+    top: 50%;
+    transform: translateY(-50%);
+    display: flex;
+    align-items: center;
+    gap: 8px;
+    padding: 4px 12px;
+    border-radius: 4px;
+    cursor: pointer;
+    transition: all 0.2s;
+    -webkit-app-region: no-drag;
+    z-index: 10;
+}
+/* 调整账户选项下拉菜单的定位基准 */
+.account-options-container {
+    position: absolute;
+    top: 100%; /* 改为相对于.login-btn定位 */
+    left: auto;
+    right: 0; /* 对齐到.login-btn的右侧 */
+    width: 150px; /* 建议使用固定宽度，百分比可能不准 */
+    transform: translateY(5px); /* 微调垂直间距 */
+    background: var(--mica);
+    border-radius: 8px;
+    backdrop-filter: blur(20px);
+    -webkit-backdrop-filter: blur(20px);
+    border: 1px solid var(--border-1);
+    z-index: 1000;
+    transition: all 0.2s ease-in-out;
+    box-shadow: 0 8px 32px var(--bg-1);
+    opacity: 0;
+    visibility: hidden;
+    overflow: hidden;
+}
+    /* 确保下拉菜单在登录按钮被hover或激活时显示的正确逻辑 */
+    .login-btn:hover + .account-options-container,
+    .account-options-container:hover {
+        opacity: 1;
+        visibility: visible;
+    }
+/* --- 右侧组样式结束 --- */
+
+/* 窗口控制按钮 - 修改为横向排列并靠右对齐 */
+.wbtg {
+    display: inline-flex;
+    align-items: center;
+    justify-content: center;
+    width: 32px;
+    height: 32px;
+    border-radius: 6px;
+    margin-left: 4px;
+    transition: all 0.2s ease;
+    -webkit-app-region: no-drag;
+}
+
+    .wbtg:hover {
+        background: var(--border-1);
+    }
+
+    .wbtg.red:hover {
+        background: var(--color-2);
+    }
+
+    .wbtg:active {
+        transform: scale(0.95);
+    }
+
+/* 搜索栏样式 - 调整以确保在中间 */
+.titbar > .search {
+    /* grid-column: 2; */ /* 注释掉，因为可能不再需要grid布局 */
+    margin: auto auto auto 0px; 
+    position: relative;
+    left: 16px;
+    -webkit-app-region: no-drag;
+    z-index: 1;
+    width: 60%;
+    max-width: 500px; /* 限制最大宽度，使其更协调 */
+    /* position: relative; 确保其层叠顺序 */
+}
+
+.search-music {
+    width: 100%;
+    padding: 12px 16px;
+    border-radius: 8px;
+    border: none;
+    background: var(--color-14);
+    font-size: 14px;
+    transition: all 0.4s cubic-bezier(0.25, 1, 0.5, 1);
+    backdrop-filter: blur(var(--bg-blur-amount, 10px));
+    -webkit-app-region: no-drag;
+}
+
+    .search-music:focus {
+        outline: none;
+        background: var(--rgba-10);
+        transform: translateY(-3px) scale(1.01);
+        box-shadow: 0 8px 24px var(--rgba-11);
+    }
+
+/* 搜索建议样式 */
+.suggestions {
+    position: absolute;
+    top: 70px;
+    left: 50%;
+    width: 60%;
+    transform: translateX(-50%) translateY(-10px);
+    background: var(--mica);
+    border-radius: 8px;
+    margin-top: 4px;
+    backdrop-filter: blur(var(--bg-blur-amount, 10px));
+    -webkit-backdrop-filter: blur(var(--bg-blur-amount, 10px));
+    border: 1px solid var(--border-1);
+    overflow: hidden;
+    z-index: 1000;
+    opacity: 0;
+    visibility: hidden;
+    transition: all 0.2s ease-in-out;
+    box-shadow: 0 8px 32px var(--bg-1);
+}
+
+    .suggestions.active {
+        opacity: 1;
+        visibility: visible;
+        transform: translateX(-50%) translateY(0);
+    }
+
+.suggestion-item {
+    padding: 8px 16px;
+    cursor: pointer;
+    transition: all 0.2s ease;
+    margin: 6px;
+    border-radius: 8px;
+}
+
+    .suggestion-item .suggest_high_light {
+        -webkit-text-fill-color: transparent;
+        background-image: linear-gradient(to right, var(--theme-1), var(--theme-2));
+        background-clip: text;
+        font-style: normal;
+        -webkit-background-clip: text;
+    }
+
+    .suggestion-item:hover,
+    .selected {
+        background: var(--rgba-16);
+    }
+
+/* 用户头像样式 */
+.login-btn .user-avatar {
+    width: 24px;
+    height: 24px;
+    border-radius: 50%;
+    object-fit: cover;
+    box-shadow: 0 2px 4px rgba(0, 0, 0, 0.2);
+}
+
+    /* 当头像加载失败时显示的默认样式 */
+    .login-btn .user-avatar:not([src]),
+    .login-btn .user-avatar[src=""] {
+        display: none;
+    }
+
+.account-options-container > .option {
+    padding: 6px;
+    cursor: pointer;
+    text-align: center;
+    font-size: 15px;
+    transition: all 0.2s ease;
+}
+
+    .account-options-container > .option:hover,
+    .selected {
+        background: var(--rgba-16);
+    }
